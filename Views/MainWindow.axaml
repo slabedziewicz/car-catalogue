@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Car_Catalogue_Desktop.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="Car_Catalogue_Desktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Car Catalogue Desktop"
+        Background="#1E1E1E">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" Background="#2D2D30" Padding="15">
+            <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                <TextBlock Text="Katalog Samochodowy" FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="0,0,20,0"/>
+
+                <ComboBox Width="150" ItemsSource="{Binding AvailableBrands}" SelectedItem="{Binding SelectedBrand}" PlaceholderText="Wybierz markę"/>
+                <ComboBox Width="150" ItemsSource="{Binding AvailableModels}" SelectedItem="{Binding SelectedModel}" PlaceholderText="Wybierz model"/>
+                <ComboBox Width="100" ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}" PlaceholderText="Rok"/>
+                
+                <Button Content="Wyczyść filtry" Command="{Binding ClearFiltersCommand}" />
+                <Button Content="Dodaj nowy pojazd" Command="{Binding AddNewCarCommand}" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Padding="20">
+            <ItemsControl ItemsSource="{Binding Cars}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="#252526" CornerRadius="8" Margin="10" Width="220" Height="260" ClipToBounds="True">
+                            <Button Background="Transparent" Padding="0" Margin="0" BorderThickness="0"
+                                    x:CompileBindings="False"
+                                    Command="{Binding $parent[Window].DataContext.OpenCarDetailsCommand}"
+                                    CommandParameter="{Binding}">
+                                <Grid RowDefinitions="150,*">
+                                    <Image Source="{Binding CarImage}" Stretch="UniformToFill" Grid.Row="0" />
+                                    <Border Grid.Row="0" Background="#444444" IsVisible="{Binding CarImage, Converter={x:Static ObjectConverters.IsNull}}">
+                                         <TextBlock Text="Brak zdjęcia" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#AAAAAA"/>
+                                    </Border>
+                                    
+                                    <StackPanel Grid.Row="1" Margin="15">
+                                        <TextBlock Text="{Binding CarModel.Brand}" FontWeight="Bold" FontSize="18" Foreground="White" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding CarModel.Model}" FontSize="15" Foreground="#CCCCCC" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding CarModel.Year}" FontSize="13" Foreground="#999999" Margin="0,5,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Window>

@@ -1,0 +1,55 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Car_Catalogue_Desktop.ViewModels"
+        x:Class="Car_Catalogue_Desktop.Views.CarDetailsWindow"
+        x:DataType="vm:CarDetailsViewModel"
+        Title="{Binding CarVm.CarModel.Model}"
+        Width="700" Height="500"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E">
+    <Grid ColumnDefinitions="*, *" Margin="20">
+        <Border Grid.Column="0" Background="#252526" CornerRadius="10" ClipToBounds="True" Margin="0,0,15,0">
+            <Image Source="{Binding CarVm.CarImage}" Stretch="UniformToFill" />
+        </Border>
+
+        <ScrollViewer Grid.Column="1" Margin="15,0,0,0">
+            <StackPanel Spacing="15">
+                <TextBlock Text="{Binding CarVm.CarModel.Brand}" FontSize="28" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="{Binding CarVm.CarModel.Model}" FontSize="22" Foreground="#CCCCCC" Margin="0,-10,0,0"/>
+                
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto, *" Margin="0,15,0,0">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Rok:" Foreground="#AAAAAA" Margin="0,0,10,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CarVm.CarModel.Year}" Foreground="White" FontWeight="Bold"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Nadwozie:" Foreground="#AAAAAA" Margin="0,0,10,5" IsVisible="{Binding CarVm.CarModel.BodyType, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CarVm.CarModel.BodyType}" Foreground="White" FontWeight="Bold" IsVisible="{Binding CarVm.CarModel.BodyType, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Pojemność Silnika:" Foreground="#AAAAAA" Margin="0,0,10,5" IsVisible="{Binding CarVm.CarModel.EngineCapacity, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CarVm.CarModel.EngineCapacity, StringFormat='{}{0:F1} L'}" Foreground="White" FontWeight="Bold" IsVisible="{Binding CarVm.CarModel.EngineCapacity, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Moc:" Foreground="#AAAAAA" Margin="0,0,10,5" IsVisible="{Binding CarVm.CarModel.HorsePower, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CarVm.CarModel.HorsePower, StringFormat='{}{0} KM'}" Foreground="White" FontWeight="Bold" IsVisible="{Binding CarVm.CarModel.HorsePower, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Moment:" Foreground="#AAAAAA" Margin="0,0,10,5" IsVisible="{Binding CarVm.CarModel.Torque, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding CarVm.CarModel.Torque, StringFormat='{}{0} Nm'}" Foreground="White" FontWeight="Bold" IsVisible="{Binding CarVm.CarModel.Torque, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="V-Max:" Foreground="#AAAAAA" Margin="0,0,10,5" IsVisible="{Binding CarVm.CarModel.TopSpeed, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding CarVm.CarModel.TopSpeed, StringFormat='{}{0} km/h'}" Foreground="White" FontWeight="Bold" IsVisible="{Binding CarVm.CarModel.TopSpeed, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="0-100 km/h:" Foreground="#AAAAAA" Margin="0,0,10,5" IsVisible="{Binding CarVm.CarModel.ZeroToHundred, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding CarVm.CarModel.ZeroToHundred, StringFormat='{}{0:F1} s'}" Foreground="White" FontWeight="Bold" IsVisible="{Binding CarVm.CarModel.ZeroToHundred, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Waga:" Foreground="#AAAAAA" Margin="0,0,10,5" IsVisible="{Binding CarVm.CarModel.Weight, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                    <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding CarVm.CarModel.Weight, StringFormat='{}{0} kg'}" Foreground="White" FontWeight="Bold" IsVisible="{Binding CarVm.CarModel.Weight, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                </Grid>
+
+                <Grid ColumnDefinitions="*, *" Margin="0,30,0,0">
+                    <Button Grid.Column="0" Content="Edytuj" Command="{Binding EditCommand}" Margin="0,0,5,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    <Button Grid.Column="1" Content="Usuń" Command="{Binding DeleteCommand}" Background="#CC0000" Foreground="White" Margin="5,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                </Grid>
+                
+                <Button Content="Zamknij" Command="{Binding CloseCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,10,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

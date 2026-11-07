@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Car_Catalogue_Desktop.ViewModels"
+        x:Class="Car_Catalogue_Desktop.Views.CarEditWindow"
+        x:DataType="vm:CarEditViewModel"
+        Title="Edytuj Pojazd"
+        Width="650" Height="550"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E">
+    <Grid ColumnDefinitions="*, *" Margin="20" RowDefinitions="*">
+        <ScrollViewer Grid.Column="0" Margin="0,0,10,0">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Marka" Foreground="White"/>
+                <TextBox Text="{Binding EditingCar.Brand}" Watermark="Np. Audi" />
+                
+                <TextBlock Text="Model" Foreground="White" Margin="0,5,0,0"/>
+                <TextBox Text="{Binding EditingCar.Model}" Watermark="Np. A4" />
+                
+                <TextBlock Text="Rok Produkcji" Foreground="White" Margin="0,5,0,0"/>
+                <NumericUpDown Value="{Binding EditingCar.Year}" Minimum="1886" Maximum="2100" />
+
+                <TextBlock Text="Typ Nadwozia" Foreground="White" Margin="0,5,0,0"/>
+                <TextBox Text="{Binding EditingCar.BodyType}" Watermark="Sedan, Kombi..." />
+
+                <TextBlock Text="Prędkość Maksymalna (km/h)" Foreground="White" Margin="0,5,0,0"/>
+                <NumericUpDown Value="{Binding EditingCar.TopSpeed}" Minimum="0" Maximum="600"/>
+
+                <TextBlock Text="Moc (KM)" Foreground="White" Margin="0,5,0,0"/>
+                <NumericUpDown Value="{Binding EditingCar.HorsePower}" Minimum="0" />
+
+                <TextBlock Text="Moment Obrotowy (Nm)" Foreground="White" Margin="0,5,0,0"/>
+                <NumericUpDown Value="{Binding EditingCar.Torque}" Minimum="0" />
+
+                <TextBlock Text="Pojemność Silnika (L)" Foreground="White" Margin="0,5,0,0"/>
+                <NumericUpDown Value="{Binding EditingCar.EngineCapacity}" Increment="0.1" Minimum="0"/>
+
+                <TextBlock Text="0-100 km/h (s)" Foreground="White" Margin="0,5,0,0"/>
+                <NumericUpDown Value="{Binding EditingCar.ZeroToHundred}" Increment="0.1" Minimum="0.1"/>
+
+                <TextBlock Text="Waga (kg, opcjonalnie)" Foreground="White" Margin="0,5,0,0"/>
+                <NumericUpDown Value="{Binding EditingCar.Weight}" Minimum="0" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Column="1" Spacing="15" Margin="10,0,0,0">
+            <TextBlock Text="Zdjęcie Pojazdu" FontWeight="Bold" Foreground="White"/>
+            
+            <Border Background="#252526" CornerRadius="8" Height="250" ClipToBounds="True">
+                <Image Source="{Binding PreviewImage}" Stretch="UniformToFill" />
+            </Border>
+            
+            <Button Content="Wybierz Zdjęcie" Click="SelectImage_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+
+            <Grid ColumnDefinitions="*, *" Margin="0,30,0,0">
+                <Button Grid.Column="0" Content="Anuluj" Command="{Binding CancelCommand}" HorizontalAlignment="Stretch" Margin="0,0,5,0" HorizontalContentAlignment="Center"/>
+                <Button Grid.Column="1" Content="Zapisz" Command="{Binding SaveCommand}" Background="#007ACC" Foreground="White" FontWeight="Bold" HorizontalAlignment="Stretch" Margin="5,0,0,0" HorizontalContentAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
